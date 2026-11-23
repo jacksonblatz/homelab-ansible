@@ -1,0 +1,39 @@
+---
+- name: Set chrony paths for RedHat family
+  ansible.builtin.set_fact:
+    chrony_package: chrony
+    chrony_service: chronyd
+    chrony_conf: /etc/chrony.conf
+  when: ansible_os_family == "RedHat"
+
+- name: Set chrony paths for Debian family
+  ansible.builtin.set_fact:
+    chrony_package: chrony
+    chrony_service: chrony
+    chrony_conf: /etc/chrony/chrony.conf
+  when: ansible_os_family == "Debian"
+
+- name: Fail on unsupported OS family
+  ansible.builtin.fail:
+    msg: "This role supports RedHat and Debian families. Got {{ ansible_os_family }}."
+  when: ansible_os_family not in ["RedHat", "Debian"]
+
+- name: Install chrony
+  ansible.builtin.package:
+    name: "{{ chrony_package }}"
+    state: present
+
+- name: Deploy chrony configuration
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: "{{ chrony_conf }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart chrony
+
+- name: Enable and start chrony
+  ansible.builtin.service:
+    name: "{{ chrony_service }}"
+    state: started
+    enabled: true

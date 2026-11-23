@@ -1,0 +1,7 @@
+---
+- name: Apply baseline lab configuration
+  hosts: linux
+  become: true
+  roles:
+    - role: chrony
+    - role: systemd_timer

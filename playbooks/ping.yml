@@ -1,0 +1,7 @@
+---
+- name: Check SSH and Python on lab hosts
+  hosts: linux
+  gather_facts: false
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:

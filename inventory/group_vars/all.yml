@@ -1,0 +1,19 @@
+---
+# Shared example defaults. Override per group or host as needed.
+
+chrony_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+
+patch_apply: false
+patch_reboot: false
+patch_max_packages: 50
+patch_allow_large_batch: false
+
+timer_name: lab-update-check
+timer_description: Weekly package-update report
+timer_on_calendar: "Sun *-*-* 04:00:00"
+timer_persistent: true
+timer_exec_start: /usr/bin/dnf --check check-update

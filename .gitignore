@@ -1,0 +1,23 @@
+# Ansible
+*.retry
+*.log
+/reports/
+
+# Secrets and local overrides (this repo ships example inventory only)
+.env
+.env.*
+*.pem
+*.key
+*.crt
+id_rsa*
+*.vault
+vault.yml
+
+# Python / editor
+__pycache__/
+.venv/
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store

@@ -1,0 +1,11 @@
+[Unit]
+Description={{ timer_description }}
+
+[Timer]
+OnCalendar={{ timer_on_calendar }}
+RandomizedDelaySec={{ timer_randomized_delay_sec }}
+Persistent={{ timer_persistent | bool | lower }}
+Unit={{ timer_name }}.service
+
+[Install]
+WantedBy=timers.target

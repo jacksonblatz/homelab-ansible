@@ -1,0 +1,13 @@
+---
+- name: Include RedHat family tasks
+  ansible.builtin.include_tasks: redhat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Include Debian family tasks
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: Fail on unsupported OS family
+  ansible.builtin.fail:
+    msg: "This role supports RedHat and Debian families. Got {{ ansible_os_family }}."
+  when: ansible_os_family not in ["RedHat", "Debian"]

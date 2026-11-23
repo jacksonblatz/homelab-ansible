@@ -1,0 +1,67 @@
+---
+- name: Refresh apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  check_mode: false
+
+- name: List upgradable packages
+  ansible.builtin.command:
+    argv:
+      - apt-get
+      - --just-print
+      - --quiet
+      - upgrade
+  register: patch_check
+  changed_when: false
+  check_mode: false
+
+- name: Count pending package updates
+  ansible.builtin.set_fact:
+    patch_pending: "{{ patch_check.stdout_lines | select('match', '^Inst ') | list | length }}"
+
+- name: Report pending updates
+  ansible.builtin.debug:
+    msg: "{{ inventory_hostname }} has {{ patch_pending }} pending package update(s). patch_apply={{ patch_apply }}."
+
+- name: Refuse a large unattended batch
+  ansible.builtin.fail:
+    msg: >-
+      {{ patch_pending }} pending updates exceeds patch_max_packages={{ patch_max_packages }}.
+      Re-run with -e patch_allow_large_batch=true if you have reviewed the set.
+  when:
+    - patch_apply | bool
+    - not (patch_allow_large_batch | bool)
+    - (patch_pending | int) > (patch_max_packages | int)
+
+- name: Apply available package updates
+  ansible.builtin.apt:
+    upgrade: dist
+  when: patch_apply | bool
+  register: patch_apply_result
+
+- name: Check whether a reboot is required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: patch_reboot_file
+
+- name: Set reboot_required
+  ansible.builtin.set_fact:
+    patch_reboot_required: "{{ patch_reboot_file.stat.exists }}"
+
+- name: Report a needed reboot without performing it
+  ansible.builtin.debug:
+    msg: >-
+      {{ inventory_hostname }} requires a reboot.
+      It will not be rebooted unless you pass -e patch_reboot=true.
+  when:
+    - patch_reboot_required | bool
+    - not (patch_reboot | bool)
+
+- name: Reboot if required and explicitly enabled
+  ansible.builtin.reboot:
+    reboot_timeout: "{{ patch_reboot_timeout }}"
+  when:
+    - patch_apply | bool
+    - patch_reboot | bool
+    - patch_reboot_required | bool

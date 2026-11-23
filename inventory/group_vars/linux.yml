@@ -1,0 +1,3 @@
+---
+# Family-specific defaults can go here. The roles detect OS package
+# managers from Ansible facts at runtime.

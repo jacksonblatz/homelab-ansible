@@ -1,0 +1,36 @@
+---
+- name: Validate timer_name
+  ansible.builtin.assert:
+    that:
+      - timer_name | length > 0
+      - timer_name is match('^[a-zA-Z0-9@._-]+$')
+    fail_msg: "timer_name must be a simple systemd unit name."
+
+- name: Deploy oneshot service unit
+  ansible.builtin.template:
+    src: service.j2
+    dest: "/etc/systemd/system/{{ timer_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+    - Restart timer
+
+- name: Deploy timer unit
+  ansible.builtin.template:
+    src: timer.j2
+    dest: "/etc/systemd/system/{{ timer_name }}.timer"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+    - Restart timer
+
+- name: Enable and start the timer
+  ansible.builtin.systemd:
+    name: "{{ timer_name }}.timer"
+    enabled: true
+    state: started
+    daemon_reload: true

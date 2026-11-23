@@ -1,0 +1,6 @@
+---
+- name: Guarded package updates
+  hosts: linux
+  become: true
+  roles:
+    - role: guarded_patch

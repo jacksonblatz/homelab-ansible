@@ -1,0 +1,3 @@
+---
+# Example per-host override. lab-vm-01 is treated as a RHEL-like host
+# in comments only; the patch role follows ansible_os_family at runtime.

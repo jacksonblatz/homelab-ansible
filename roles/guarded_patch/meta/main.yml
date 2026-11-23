@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Jackson Blatz
+  description: Report pending updates, apply only when enabled, reboot only when gated.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: EL
+      versions: ["8", "9", "10"]
+    - name: Fedora
+      versions: ["all"]
+    - name: Debian
+      versions: ["bookworm", "trixie"]
+    - name: Ubuntu
+      versions: ["jammy", "noble"]
+  galaxy_tags: [patch, update, dnf, apt]
+dependencies: []

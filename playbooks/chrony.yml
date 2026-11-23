@@ -1,0 +1,6 @@
+---
+- name: Configure chrony on lab hosts
+  hosts: linux
+  become: true
+  roles:
+    - role: chrony

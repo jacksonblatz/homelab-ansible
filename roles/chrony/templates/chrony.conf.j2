@@ -1,0 +1,14 @@
+# Managed by Ansible. Local changes will be overwritten.
+{% for server in chrony_servers %}
+server {{ server }} iburst
+{% endfor %}
+
+driftfile /var/lib/chrony/drift
+makestep {{ chrony_makestep_threshold }} {{ chrony_makestep_limit }}
+rtcsync
+{% if chrony_allow_subnets %}
+
+{% for net in chrony_allow_subnets %}
+allow {{ net }}
+{% endfor %}
+{% endif %}

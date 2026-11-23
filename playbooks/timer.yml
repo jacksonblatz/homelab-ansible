@@ -1,0 +1,6 @@
+---
+- name: Install a systemd timer on lab hosts
+  hosts: linux
+  become: true
+  roles:
+    - role: systemd_timer
