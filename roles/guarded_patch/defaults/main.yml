@@ -1,8 +1,8 @@
 ---
 # Defaults are report-only. Nothing is installed or rebooted unless you
-# pass -e patch_apply=true and, separately, -e patch_reboot=true.
-patch_apply: false
-patch_reboot: false
-patch_max_packages: 50
-patch_allow_large_batch: false
-patch_reboot_timeout: 600
+# pass -e guarded_patch_apply=true and, separately, -e guarded_patch_reboot=true.
+guarded_patch_apply: false
+guarded_patch_reboot: false
+guarded_patch_max_packages: 50
+guarded_patch_allow_large_batch: false
+guarded_patch_reboot_timeout: 600

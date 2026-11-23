@@ -1,11 +1,11 @@
 [Unit]
-Description={{ timer_description }}
+Description={{ systemd_timer_description }}
 
 [Timer]
-OnCalendar={{ timer_on_calendar }}
-RandomizedDelaySec={{ timer_randomized_delay_sec }}
-Persistent={{ timer_persistent | bool | lower }}
-Unit={{ timer_name }}.service
+OnCalendar={{ systemd_timer_on_calendar }}
+RandomizedDelaySec={{ systemd_timer_randomized_delay_sec }}
+Persistent={{ systemd_timer_persistent | bool | lower }}
+Unit={{ systemd_timer_name }}.service
 
 [Install]
 WantedBy=timers.target

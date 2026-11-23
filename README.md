@@ -34,18 +34,18 @@ Patching is report-only unless you turn the gates on. Start with a dry run:
 
 To install updates but leave the host running if a reboot is needed:
 
-    ansible-playbook playbooks/patch.yml -e patch_apply=true
+    ansible-playbook playbooks/patch.yml -e guarded_patch_apply=true
 
 To install updates and reboot only when the role detects that a reboot is required:
 
-    ansible-playbook playbooks/patch.yml -e patch_apply=true -e patch_reboot=true
+    ansible-playbook playbooks/patch.yml -e guarded_patch_apply=true -e guarded_patch_reboot=true
 
-If more packages are pending than `patch_max_packages` (default 50), the apply step fails unless you also pass `-e patch_allow_large_batch=true`.
+If more packages are pending than `guarded_patch_max_packages` (default 50), the apply step fails unless you also pass `-e guarded_patch_allow_large_batch=true`.
 
 `playbooks/site.yml` applies the chrony and timer roles together.
 
 ## Notes
 
-Override `timer_exec_start` and `timer_on_calendar` in group or host vars so the timer command matches the host's package manager. The example command is a DNF check-only run.
+Override `systemd_timer_exec_start` and `systemd_timer_on_calendar` in group or host vars so the timer command matches the host's package manager. The example command is a DNF check-only run.
 
 This repository does not ship a live inventory, secrets, or a connection to any real machine.

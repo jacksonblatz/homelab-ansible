@@ -1,10 +1,10 @@
 [Unit]
-Description={{ timer_description }}
+Description={{ systemd_timer_description }}
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-Type={{ timer_service_type }}
-User={{ timer_service_user }}
-ExecStart={{ timer_exec_start }}
+Type={{ systemd_timer_service_type }}
+User={{ systemd_timer_service_user }}
+ExecStart={{ systemd_timer_exec_start }}
 Nice=10

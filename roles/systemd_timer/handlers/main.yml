@@ -5,5 +5,5 @@
 
 - name: Restart timer
   ansible.builtin.systemd:
-    name: "{{ timer_name }}.timer"
+    name: "{{ systemd_timer_name }}.timer"
     state: restarted

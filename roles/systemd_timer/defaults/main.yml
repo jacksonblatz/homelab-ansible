@@ -1,10 +1,10 @@
 ---
-timer_name: lab-update-check
-timer_description: Weekly package-update report
-timer_on_calendar: "Sun *-*-* 04:00:00"
-timer_persistent: true
-timer_randomized_delay_sec: 900
+systemd_timer_name: lab-update-check
+systemd_timer_description: Weekly package-update report
+systemd_timer_on_calendar: "Sun *-*-* 04:00:00"
+systemd_timer_persistent: true
+systemd_timer_randomized_delay_sec: 900
 # Example command only. Override this per host or group.
-timer_exec_start: /usr/bin/dnf --check check-update
-timer_service_type: oneshot
-timer_service_user: root
+systemd_timer_exec_start: /usr/bin/dnf --check check-update
+systemd_timer_service_type: oneshot
+systemd_timer_service_user: root
